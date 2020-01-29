@@ -1,16 +1,32 @@
-const movies = require('../models/movie');
-const genres = require('../models/genre');
+
+const db = require('../database/models');
 //const genres = require('../genres/');
 const { check, validationResult, body } = require('express-validator');
 
+const limit = 9;
+
 const controller = {
     index : (req, res) => {
-        movies.findAll().then(movies => {
-            res.render('movies/index', { movies : movies });
+        const page = (req.query.page) ? parseInt(req.query.page) : 1;
+        db.Movies.findAndCountAll({
+            limit : limit,
+            offset : limit * (page - 1)
+        }).then(movies => {
+            const count = movies.count;
+            const pages = parseInt(count / limit);
+            
+            const data = { 
+                movies : movies.rows,
+                count : count,
+                page : page,
+                pages : pages
+            };
+
+            res.render('movies/index', data);
         })
     },
     new : (req, res) => {
-        genres.findAll().then(genres => {
+        db.Genres.findAll().then(genres => {
             res.render('movies/new', {
                 helper: require('../helpers/showErrors'),
                 genres : genres, errors : req.session.errors, data : req.session.data
@@ -18,7 +34,7 @@ const controller = {
         });
     },
     create : (req, res, next) => {
-        movies.create({
+        db.Movies.create({
             title : req.body.title,
             genre_id : parseInt(req.body.genre_id),
             awards : parseInt(req.body.awards),
@@ -31,7 +47,7 @@ const controller = {
     },
     edit : (req, res) => {
         const movie_id = req.params.id;
-        const movie = movies.find(function (movie){
+        const movie = db.Movies .find(function (movie){
             return movie_id == movie.id;
         });
         res.render('movies/edit', { genres : genres, movie : movie });
