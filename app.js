@@ -7,10 +7,10 @@ const session = require('express-session');
 
 const methodOverride = require('method-override');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const homeRouter = require('./routes/home');
-const movieRouter = require('./routes/movies');
+const indexRouter = require('./src/routes/index');
+const usersRouter = require('./src/routes/users');
+const homeRouter = require('./src/routes/home');
+const movieRouter = require('./src/routes/movies');
 
 const app = express();
 
