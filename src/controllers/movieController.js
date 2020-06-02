@@ -10,7 +10,7 @@ const limit = 9;
 const controller = {
     index : (req, res) => {
         const page = (req.query.page) ? parseInt(req.query.page) : 1;
-        db.Movies.findAndCountAll({
+        db.Movie.findAndCountAll({
             limit : limit,
             offset : limit * (page - 1)
         }).then(movies => {
@@ -28,7 +28,7 @@ const controller = {
         })
     },
     new : (req, res) => {
-        db.Genres.findAll().then(genres => {
+        db.Genre.findAll().then(genres => {
             res.render('movies/new', {
                 helper: require('../helpers/showErrors'),
                 genres : genres, errors : req.session.errors, data : req.session.data
@@ -36,7 +36,7 @@ const controller = {
         });
     },
     create : (req, res, next) => {
-        db.Movies.create({
+        db.Movie.create({
             title : req.body.title,
             genre_id : parseInt(req.body.genre_id),
             awards : parseInt(req.body.awards),
@@ -49,7 +49,7 @@ const controller = {
     },
     edit : (req, res) => {
         const movie_id = req.params.id;
-        const movie = db.Movies .find(function (movie){
+        const movie = db.Movie.find(function (movie){
             return movie_id == movie.id;
         });
         res.render('movies/edit', { genres : genres, movie : movie });
