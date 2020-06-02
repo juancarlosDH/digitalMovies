@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const sequelize = new Sequelize('mysql://root:123456@localhost:3306/movies_db');
 
-const Genre = require('./genre')
+const Genre = require('../database/models/genre')
 
 sequelize
   .authenticate()

@@ -1,5 +1,6 @@
-const movies = require('../models/movie');
-const genres = require('../models/genre');
+const models = require('../database/models')
+const movies = models.Movie;
+const genres = models.Genre;
 //const genres = require('../genres/');
 const { check, validationResult, body } = require('express-validator');
 

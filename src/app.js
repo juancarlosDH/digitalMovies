@@ -7,10 +7,10 @@ const session = require('express-session');
 
 const methodOverride = require('method-override');
 
-const indexRouter = require('./src/routes/index');
-const usersRouter = require('./src/routes/users');
-const homeRouter = require('./src/routes/home');
-const movieRouter = require('./src/routes/movies');
+const indexRouter = require('./routes/index');
+const regiterRouter = require('./routes/register');
+const homeRouter = require('./routes/home');
+const movieRouter = require('./routes/movies');
 
 const app = express();
 
@@ -23,9 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.resolve(__dirname, '../public')));
 app.use(session({
-  secret: 'ssshhhhh',
+  secret: 'digitalMovies',
   // create new redis store.
   saveUninitialized: false,
   resave: false
@@ -33,7 +33,7 @@ app.use(session({
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/register', regiterRouter);
 app.use('/home', homeRouter);
 app.use('/movies', movieRouter);
 

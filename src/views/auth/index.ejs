@@ -1,0 +1,73 @@
+<%- include('./../partials/header') %>
+    
+
+<link rel="stylesheet" href="/css/styles.css">
+
+
+<section class="principal">
+    <article class="nuevas" id="peliculas">
+        <div class="peliculas">
+           <div class="titulo-nav">
+                <h3>Peliculas en Digital Movies</h3>
+                <div>
+                    
+                  <a href="/movies/new" class="btn btn-primary">Nueva</a>
+
+                </div>
+          </div>
+          <div class="sub-titulo">
+              <div class="ordenamiento">
+                <ol class="breadcrumb">
+                 <li class="breadcrumb-item"><a href="?orden=title">Titulo</a></li>
+                 <li class="breadcrumb-item"><a href="?orden=genero">Genero</a></li>
+                 <li class="breadcrumb-item "><a href="?orden=rating">Rating</a></li>
+                 <li class="breadcrumb-item active"><a href="?orden=awards">Awards</a></li>
+               </ol>
+              </div>
+              <nav >
+                  Navegación
+              </nav>
+          </div>
+ 
+          <div class="">
+                 <div class="alert alert-">
+                     Aqui va el mensaje
+                 </div>
+          </div>
+ 
+          <div class="card-group">
+ 
+<% for (movie of movies) { %>
+
+     <div class="card card-peli">
+       <img class="fondo-peli" src="/images/default.png">
+       <div class="card-header">
+           <span class="card-title"><%= movie.title %></span>
+           <form class="form-add-my-list" action="/my-list/<%= movie.id %>" method="post">
+               <button type="submit" class="no-button">
+                   <img src="/images/heart_no_like.png" class="like">
+               </button>
+           </form>
+           </a>
+       </div>
+       <div class="card-body">
+         <p class="card-text"><%= movie.genres %></p>
+         <p class="card-text">Rating: <%= movie.rating %></p>
+         <p class="card-text">Awards: <%= movie.awards %></p>
+         <p class="card-text">
+           <a class="btn btn-primary" href="/movies/<%= movie.id %>">Ver Mas</a>
+           
+           <a class="btn btn-success" href="/movies/<%= movie.id %>/edit">Editar</a>
+           
+           </p>
+       </div>
+     </div>
+<% } %>    
+           </div>
+ 
+ 
+        </div>
+    </article>
+ </section>
+
+<%- include('./../partials/footer') %>

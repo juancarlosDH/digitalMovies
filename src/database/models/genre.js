@@ -1,14 +1,14 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Movie = sequelize.define('Movie', {
-    title: DataTypes.STRING
+  const Genre = sequelize.define('Genre', {
+    name: DataTypes.STRING
   }, {
-    tableName : 'movies',
+    tableName : 'genres',
     underscored : true,
     paranoid: true
   });
-  Movie.associate = function(models) {
+  Genre.associate = function(models) {
     // associations can be defined here
   };
-  return Movie;
+  return Genre;
 };
