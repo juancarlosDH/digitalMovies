@@ -1,7 +1,5 @@
 <%- include('./../partials/header') %>
     
-
-
 <div class="row">
     <div class="col-md-6 offset-md-3">
       <article class="nuevas" id="peliculas">
@@ -31,20 +29,20 @@
                     </div>
     
                     <div class="form-group">
-                      <label for="release_date">Fecha de Lanzamiento</label>
-                      <input type="date" class="form-control" id="release_date" name="release_date"  value="<%= helper.showValue(data, 'release_date') %>">
-                      <%= helper.showError(errors, 'release_date') %>                
+                      <label for="releaseDate">Fecha de Lanzamiento</label>
+                      <input type="date" class="form-control" id="releaseDate" name="releaseDate"  value="<%= helper.showValue(data, 'releaseDate') %>">
+                      <%= helper.showError(errors, 'releaseDate') %>                
                     </div>
     
                     <div class="form-group">
-                      <label for="genre_id">Genero</label>
-                      <select class="form-control" name="genre_id" id="genre_id">
+                      <label for="genreId">Genero</label>
+                      <select class="form-control" name="genreId" id="genreId">
                         <option value="">Elije uno</option>
                     <% for(genre of genres) { %>
                         <option value="<%= genre.id %>" ><%= genre.name %></option>
                     <% } %>
                       </select>
-                      <%= helper.showError(errors, 'genre_id') %>                
+                      <%= helper.showError(errors, 'genreId') %>                
                     </div>
     
                     <div class="form-group">

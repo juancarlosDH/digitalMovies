@@ -2,6 +2,7 @@
     
 
 <link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/movies/detail.css">
 
 
 <section class="principal">
@@ -24,8 +25,26 @@
                  <li class="breadcrumb-item active"><a href="?orden=awards">Awards</a></li>
                </ol>
               </div>
-              <nav >
-                  Navegación
+              <!-- Navigation pass to a file to reuse -->
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  
+                  <li class="page-item <%= (page == 1) ? 'disabled' : '' %>">
+                    <a class="page-link" href="?page=<%= page - 1 %>" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                <% for (let i = 1; i <= pages; i++) { %>
+                  <li class="page-item <%= (i == page) ? 'active' : '' %>"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+                <% } %>  
+                  <li class="page-item <%= (page == pages) ? 'disabled' : '' %>">
+                    <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
               </nav>
           </div>
  
@@ -51,9 +70,24 @@
            </a>
        </div>
        <div class="card-body">
-         <p class="card-text"><%= movie.genres %></p>
-         <p class="card-text">Rating: <%= movie.rating %></p>
-         <p class="card-text">Awards: <%= movie.awards %></p>
+         <p class="card-text"><%= movie.genre.name %></p>
+         <div class="rating mini-detail-item">
+          <i class="fas fa-star star-rating"></i>
+          <span class="text-rating"><%= movie.rating %></span>
+        </div>
+         <p class="card-text">
+           <div class="mini-details ">            
+            <div class="mini-detail-item">
+                <span><i class="fas fa-hourglass-half is"></i></span>
+                <span id="duracion"><%= movie.length %></span>
+            </div>
+
+            <div class="mini-detail-item">
+                <span></span><i class="fas fa-calendar-day is"></i></span>
+                <span id="fecha-lanzamiento"><%= movie.releaseDate %></span>
+            </div>
+          </div>
+        </p>
          <p class="card-text">
            <a class="btn btn-primary" href="/movies/<%= movie.id %>">Ver Mas</a>
            

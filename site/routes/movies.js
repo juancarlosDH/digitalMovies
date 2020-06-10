@@ -16,7 +16,17 @@ const storageDisk = multer.diskStorage({
 	}
 });
 
-const upload = multer({ storage: storageDisk });
+const upload = multer({
+	storage: storageDisk,
+	// Validate image
+	fileFilter: (req, file, cb) => {
+	   const acceptedExtensions = ['.jpg', '.jpeg', '.png'];
+	   const ext = path.extname(file.originalname);
+	   if (!acceptedExtensions.includes(ext)){
+			 req.file = file;
+	   }
+	   cb(null, acceptedExtensions.includes(ext));
+	} });
 
 /* GET users listing. */
 router.get('/', movieController.index);

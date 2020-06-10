@@ -5,18 +5,18 @@ const db = require('../database/models');
 //const genres = require('../genres/');
 const { check, validationResult, body } = require('express-validator');
 
-const limit = 9;
+const limit = 3;
 
 const controller = {
     index : (req, res) => {
         const page = (req.query.page) ? parseInt(req.query.page) : 1;
         db.Movie.findAndCountAll({
             limit : limit,
-            offset : limit * (page - 1)
+            offset : limit * (page - 1),
+            include : ['genre']
         }).then(movies => {
             const count = movies.count;
-            const pages = parseInt(count / limit);
-            
+            const pages = Math.ceil((count / limit));
             const data = { 
                 movies : movies.rows,
                 count : count,
@@ -24,27 +24,34 @@ const controller = {
                 pages : pages
             };
 
-            res.render('movies/index', data);
+            return res.render('movies/index', data);
         })
     },
     new : (req, res) => {
         db.Genre.findAll().then(genres => {
-            res.render('movies/new', {
+            return res.render('movies/new', {
                 helper: require('../helpers/showErrors'),
                 genres : genres, errors : req.session.errors, data : req.session.data
             });
         });
     },
     create : (req, res, next) => {
+        let poster = '';
+        console.log(req.file)
+        if (req.file) {
+            poster = req.file.filename;
+        }
+
         db.Movie.create({
             title : req.body.title,
-            genre_id : parseInt(req.body.genre_id),
             awards : parseInt(req.body.awards),
             rating : parseFloat(req.body.rating),
             length : parseInt(req.body.length),
-            release_date : req.body.release_date
+            releaseDate : req.body.releaseDate,
+            genreId : req.body.genreId,
+            poster : poster
         }).then(() => {
-            res.redirect(202, '/movies/');
+            return res.redirect('/movies/');
         });
     },
     edit : (req, res) => {
@@ -52,11 +59,11 @@ const controller = {
         const movie = db.Movie.find(function (movie){
             return movie_id == movie.id;
         });
-        res.render('movies/edit', { genres : genres, movie : movie });
+        return res.render('movies/edit', { genres : genres, movie : movie });
     },
     save : (req, res) => {
         console.log(req.body)
-        res.send(req.body);
+        return res.send(req.body);
     }
 }
 
